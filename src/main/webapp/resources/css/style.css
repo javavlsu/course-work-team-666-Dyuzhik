@@ -205,10 +205,6 @@ nav a:hover {
     color: saddlebrown;
 }
 
-nav ul li:hover {
-    border-bottom: 5px solid saddlebrown;
-}
-
 .show{
     width: 50%;
     display: inline-block;
