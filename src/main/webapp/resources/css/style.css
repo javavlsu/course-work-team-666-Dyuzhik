@@ -1,0 +1,590 @@
+html {
+    background-color: rgb(20, 14, 29);
+    background-repeat: repeat;
+    background-size: 40%;
+}
+
+body {
+    text-align: center;
+    font: 24px Consolas bold;
+    font-family: Trebuchet MS;
+}
+
+#line {
+    display: inline-block;
+}
+#teaching {
+    height: 375px;
+}
+.update{
+    position:absolute;
+    left:50px;
+    top:560px;
+    width: 350px;
+}
+.delete{
+    position:absolute;
+    left:50px;
+    top:625px;
+    width: 350px;
+}
+.detailed{
+    width: 280px;
+}
+
+#management {
+    margin-top: 30px;
+}
+
+.create-course{
+    width: 100%;
+}
+
+form{
+    margin-bottom: 5px;
+    /*display: flex;*/
+    flex-flow: row nowrap;
+    align-items: center;
+    align-content: center;
+    justify-content: space-evenly;
+}
+/*.updatediv{
+    position:absolute;
+    left:50px;
+    top:560px;
+    width: 350px;
+}
+
+.deletediv{
+    position:absolute;
+    left:50px;
+    top:630px;
+    width: 350px;
+}
+.detaileddiv{
+    position:absolute;
+    left:50px;
+    top:700px;
+    width: 350px;
+}*/
+
+.button-teach input[type=submit], .logout{
+    width: 100%;
+}
+
+.formcource{
+    width: 250px;
+}
+
+.test {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #1A1A1A;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #3B3B3B;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-width: 150px;
+    outline: none;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+}
+
+.detailed, .update, .delete, .create-course, .button-teach input[type=submit], .formcource, .logout {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #1A1A1A;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #3B3B3B;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 60px;
+    min-width: 0;
+    outline: none;
+    padding: 16px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+}
+
+.detailed:disabled, .update:disabled, .delete:disabled, .create-course:disabled, .button-teach input[type=submit]:disabled, .formcource:disabled, .test:disabled, .logout:disabled {
+    pointer-events: none;
+}
+
+.detailed:hover, .update:hover, .delete:hover, create-course:hover, .button-teach input[type=submit]:hover, .formcource:hover, .test:hover, .logout:hover {
+    color: #fff;
+    background-color: #1A1A1A;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+
+.detailed:active, .update:active, .delete:active, create-course:active, .button-teach input[type=submit]:active, .formcource:active, .test:active, .logout:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.teach {
+    color: #000000;
+    padding: 10px 20px;
+    width: 250px;
+    text-decoration: none;
+    text-align: center;
+    margin: 20px auto;
+    display: block;
+    background-image: linear-gradient(to left,white,white 50%, rgb(0, 0, 0) 50%, rgb(0, 0, 0));
+    background-position: 100% 0;
+    background-size: 200% 100%;
+    transition: all .25s ease-in;
+    font: 400 18px tahoma;
+    border: 2px solid #000000;
+}
+
+.teach:hover {
+    background-position: 0 0;
+    color:#fff;
+}
+
+nav {
+    top: 5vh;
+    font-size: 1.5em;
+    position: absolute;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 1.2em;
+    left: 0;
+    height: 70px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0;
+    text-align: center;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    align-content: center;
+    justify-content: space-evenly;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    transition: all 0.5s ease-in-out;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    transition: all 0.5s ease-in-out;
+}
+
+nav a:hover {
+    color: saddlebrown;
+}
+
+nav ul li:hover {
+    border-bottom: 5px solid saddlebrown;
+}
+
+.show{
+    width: 50%;
+    display: inline-block;
+    padding: 2%;
+    position:relative;
+    float: right;
+}
+
+.edit{
+    padding: 2%;
+}
+#edit img {
+    width: 350px;
+    height: 350px;
+    position:absolute;
+    left: 50px;
+    top:200px;
+}
+.form-signin-heading{
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    position:relative;
+    font-size: unset;
+}
+
+#course{
+    width: 76%;
+    display: inline-block;
+    padding: 2%;
+}
+
+#main, #show{
+    background-color: white;
+    text-align: justify;
+    text-indent: 40px;
+    padding: 4%;
+}
+
+footer {
+    background-color: rgb(20, 14, 29);
+    color: white;
+    font-size: 18px;
+    padding-right: 4%;
+    text-align: right;
+}
+
+.left{
+    height: 200px;
+    float: left;
+    justify-content: center; align-items: center
+}
+.center{
+    height: 200px;
+    justify-content: center; align-items: center
+}
+.right{
+    height: 200px;
+    float: right;
+    justify-content: center; align-items: center
+}
+.help {
+    width: 90%;
+    min-height: 80%;
+    margin: 0 auto;
+    padding: 2%;
+    /*color: white;*/
+}
+
+/*.container section {
+    display: inline-flex;
+    width: 28%;
+}*/
+
+#center {
+    width: 260px;
+}
+
+#left {
+    float: left;
+    width: 260px;
+}
+
+#right {
+    float: right;
+    width: 400px;
+}
+
+article {
+    width: 80%;
+    padding: 1%;
+    color: white;
+    margin: 10px auto;
+}
+
+#container, .container {
+    margin-top: 20vh;
+}
+
+
+#course img {
+    width: 280px;
+    height: 280px;
+    border-radius: 150px;
+}
+
+#error img {
+    width: 289px;
+    height: 300px;
+    position:absolute;
+    left: 500px;
+    top:200px;
+}
+
+.collage img {
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.collage {
+    display: flex;
+    justify-content: center;
+}
+
+.cat {
+    display: inline-grid;
+}
+
+#show img {
+    width: 350px;
+    height: 350px;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.not-teach input[type=submit] {
+    padding:15px 19px;
+    background: #1ce562;
+    border:0 none;
+    cursor:pointer;
+    border-radius: 10px;
+    width: 350px;
+    font-size: 20px;
+    font-family: unset;
+    color: white;
+}
+
+
+input[type=text], input[type=password], input[type=date]{
+    padding:10px;
+    border-radius:10px;
+    width: 250px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 50px;
+    font-size: 16px;
+    color: #3B3B3B;
+}
+.formtext {
+    font-size: 15px;
+}
+
+#course p {
+    font-size: 20px;
+}
+
+#free {
+    color: green;
+}
+
+#money{
+    color: blue;
+}
+
+.sell {
+    background-color: rgb(235, 209, 199);
+    margin-top: 30px;
+    height: 0;
+    color: black;
+}
+
+#about p {
+    font-size: 20px;
+    text-align: justify;
+}
+
+.cart{
+    width: fit-content;
+    width: -moz-fit-content;
+    background-color: #f8f8ff;
+    border-radius: 20px;
+    padding: inherit;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#course h4 {
+    color: black;
+}
+
+h2 {
+    color: white;
+    font-family: 'Lucida Console';
+}
+.search{
+    box-sizing: border-box;
+    width: 30%;
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    transition: transform 0.3s ease-out;
+    color: #2a43a5;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 1em;
+}
+
+#black{
+    background-color: rgb(20, 14, 29);
+    background-repeat: repeat;
+    background-size: 40%;
+}
+
+#show h2{
+    text-align: left;
+    color: black;
+}
+
+#show h4{
+    text-align: left;
+}
+
+#auth h4{
+    color: black;
+}
+
+p.description{
+    text-align: justify;
+    font-family: Arial;
+    font-size: 20px;
+}
+
+h1.description{
+    text-align: justify;
+}
+
+progress {
+    border:0;
+    width: 300px;
+    height: 20px;
+    border-radius: 5px;
+    background: #f1f1f1;
+}
+progress::-webkit-progress-bar {
+    width: 300px;
+    height: 20px;
+    border-radius: 5px;
+    background: #f1f1f1;
+}
+progress::-webkit-progress-value {
+    border-radius: 5px;
+    background: #1ce562;
+}
+progress::-moz-progress-bar {
+    border-radius: 5px;
+    background: #1ce562;
+}
+
+.col-3 {
+    width: 280px;
+    margin: .5rem;
+    justify-content: center; align-items: center
+}
+
+.row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: end;
+    align-content: center;
+    justify-content: space-evenly;
+}
+.table {
+    background-color: lavender;
+    margin-bottom: 20px;
+    border-radius: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.role{
+    border-collapse: collapse;
+}
+tr.role{
+    border-bottom: 1px solid #b9a8ee;
+}
+
+.rowtable {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: end;
+    align-content: center;
+    justify-content: space-between;
+}
+
+table {
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+tr#true{
+    color: #4fe881;
+    font-weight: bold;
+}
+
+tr#false{
+    color: #f01616;
+    font-weight: bold;
+}
+label{
+    font-size: 14px;
+    color: #3B3B3B;
+}
+
+.profile{
+    width: 350px;
+    float: revert;
+}
+
+.previous{
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #f1f1f1;
+    color: black;
+    border-radius: 50%;
+    font-size: 17px;
+}
+.next {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #140e1d;
+    color: white;
+    border-radius: 50%;
+    font-size: 17px;
+}
+
+.page {
+    margin: .5rem;
+    justify-content: center; align-items: center
+}
+
+.pages {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.previous:hover, .next:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+}
+
+span {
+    font-family: Trebuchet MS;
+    font-size: 17px;
+    text-align: center;
+    vertical-align: baseline;
+}
