@@ -39,10 +39,16 @@ public class User {
     @Column(name="photo")
     private String photolink;
 
+    @OneToOne(mappedBy = "user")
+    private Barber barber;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="users_id"),
             inverseJoinColumns = @JoinColumn(name="roles_id"))
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Record> records;
 
     public User() {
 

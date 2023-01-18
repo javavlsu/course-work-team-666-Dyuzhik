@@ -41,38 +41,52 @@ values (1, 1),
        (1, 3),
        (2, 1);
 
+create table Service
+(
+    id   int          not null auto_increment,
+    name varchar(255) not null,
+    primary key (id)
+);
+
 create table Specialization
 (
     id   int          not null auto_increment primary key,
     name varchar(255) not null
 );
 
-create table Service
-(
-    id                int          not null auto_increment,
-    name              varchar(255) not null,
-    specialization_id int          not null,
-    foreign key (specialization_id) references Specialization (id),
-    primary key (id)
+create table Status(
+    id int not null auto_increment primary key ,
+    name varchar(255) not null
 );
 
 create table Barber
 (
-    id                int          not null auto_increment primary key,
-    user_id           int          not null,
-    position          varchar(255) not null,
-    specialization_id int          not null,
+    id                int not null auto_increment primary key,
+    user_id           int not null,
+    specialization_id int not null,
     foreign key (user_id) references user (id),
     foreign key (specialization_id) references Specialization (id)
 );
+
+# drop table Record;
 
 create table Record
 (
     id        int          not null auto_increment primary key,
     client_id int          not null,
     barber_id int          not null,
+    service_id int not null,
     date      datetime     not null,
-    status    varchar(255) not null,
-    foreign key (client_id) references user (id),
-    foreign key (barber_id) references user (id)
-)
+    status_id    int  not null,
+    foreign key (client_id) references User (id),
+    foreign key (barber_id) references Barber (id),
+    foreign key (service_id) references service(id),
+    foreign key (status_id) references Status(id)
+);
+
+insert into Specialization(name)
+values ('бабер'),
+       ('про-барбер');
+
+insert into Status(name) values
+('Активен'), ('В процессе'),('Завершён')

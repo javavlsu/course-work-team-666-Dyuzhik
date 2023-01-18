@@ -4,18 +4,18 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Service")
-public class Service {
+@Table(name = "Specialization")
+public class Specialization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
-    private List<Record> records;
+    @OneToMany(mappedBy = "specialization", cascade = CascadeType.ALL)
+    private List<Barber> barbers;
 
     public int getId() {
         return id;
@@ -33,10 +33,10 @@ public class Service {
         this.name = name;
     }
 
-    public Service() {
+    public Specialization() {
     }
 
-    public Service( String name) {
+    public Specialization(String name) {
         this.name = name;
     }
 }
