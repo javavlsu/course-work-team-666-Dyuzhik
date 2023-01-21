@@ -13,12 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
-    @Override
-    public User findByUsername(String username) {
-        return null;
-    }
     @Autowired
     private UserRepository userRepository;
 
@@ -36,7 +32,8 @@ public class UserServiceImpl implements UserService{
         user.setRoles(roles);
         userRepository.save(user);
     }
-//
+
+    //
 //    public User getCurrentAuthUser() {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        return findByUsername(auth.getName());
@@ -116,15 +113,30 @@ public class UserServiceImpl implements UserService{
 //        userRepository.save(user1);
 //    }
 //
-//    @Override
-//    public User findByUsername(String username) {
-//        return userRepository.findByUsername(username);
-//    }
-//
-//    public List<User> findAll() {
-//        return userRepository.findAll();
-//    }
-//
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public List<User> findAllBarbers(int num) {
+        List<User> users = findAll();
+        List<User> barbers = new ArrayList<>();
+        for (User user : users) {
+            Set<Role> roles =  user.getRoles();
+            for (Role role:roles){
+                if ((role.getId() == 2)||(role.getId()==4)){
+                    barbers.add(user);
+                }
+            }
+        }
+        return barbers.stream().skip(num*9).limit(9).toList();
+    }
+
+    //
 //    public User findOne(int id) {
 //        User foundUser = userRepository.findById(id);
 //        return foundUser;

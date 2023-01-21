@@ -1,5 +1,7 @@
 package com.vlsu.ispi.controllers;
 
+import com.vlsu.ispi.models.Role;
+import java.util.logging.Logger;
 import com.vlsu.ispi.models.User;
 import com.vlsu.ispi.services.SecurityService;
 import com.vlsu.ispi.services.UserService;
@@ -7,13 +9,15 @@ import com.vlsu.ispi.services.UserServiceImpl;
 import com.vlsu.ispi.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -54,7 +58,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return  "redirect:/services/index/0";
+        return  "redirect:/service/index/0";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -68,6 +72,31 @@ public class UserController {
         }
 
         return "login";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model){
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = loggedInUser.getName();
+
+        com.vlsu.ispi.models.User db_user = userService.findByUsername(username);
+        if (db_user !=null){
+            Set<Role> roles = db_user.getRoles();
+            for (Role role: roles){
+                if (role.getId() == 3) model.addAttribute("status","admin");
+            }
+            model.addAttribute("user",db_user);
+            return "user/profile";
+        }
+        else return "error/not_auth";
+    }
+
+    @GetMapping("/barbers/{num}")
+    public String barbers(@PathVariable int num, Model model){
+        model.addAttribute("barbers",userServiceImpl.findAllBarbers(num));
+        if (userServiceImpl.findAll().size()<=num*9+9)
+            model.addAttribute("end","true");
+        return "barbers/index";
     }
 
 }

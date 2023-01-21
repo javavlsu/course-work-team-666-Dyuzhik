@@ -25,6 +25,9 @@ public class Record {
     @JoinColumn(name="status_id")
     private Status status;
 
+    @Column(name = "cost")
+    private int cost;
+
     @ManyToOne()
     @JoinColumn(name = "client_id")
     private User client;
@@ -43,6 +46,14 @@ public class Record {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     public Date getDate() {

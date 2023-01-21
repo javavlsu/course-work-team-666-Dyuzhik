@@ -14,6 +14,12 @@ public class Service {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "photo")
+    private String photo;
+
+    @Column(name = "cost")
+    private int cost;
+
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private List<Record> records;
 
@@ -23,6 +29,22 @@ public class Service {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     public String getName() {
@@ -36,7 +58,8 @@ public class Service {
     public Service() {
     }
 
-    public Service( String name) {
+    public Service( String name, String photo) {
         this.name = name;
+        this.photo = photo;
     }
 }

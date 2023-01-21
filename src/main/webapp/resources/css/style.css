@@ -1,5 +1,5 @@
 html {
-    background-color: rgb(20, 14, 29);
+    background-color: 	#300000 ;
     background-repeat: repeat;
     background-size: 40%;
 }
@@ -134,7 +134,7 @@ form{
 
 .detailed:hover, .update:hover, .delete:hover, create-course:hover, .button-teach input[type=submit]:hover, .formcource:hover, .test:hover, .logout:hover {
     color: #fff;
-    background-color: #1A1A1A;
+    background-color: #300000;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
 }
@@ -202,7 +202,7 @@ nav a {
 }
 
 nav a:hover {
-    color: saddlebrown;
+    color: rgb(139, 100, 70);
 }
 
 .show{
@@ -231,10 +231,32 @@ nav a:hover {
     font-size: unset;
 }
 
-#course{
-    width: 76%;
+.service{
+    margin: 2% 5% 2%;
+    alignment: center;
+    background-color: #E8E8E8;
+    border-radius: 20px;
+}
+
+.servimg{
+    width: 300px;
+    margin: 10px;
+    padding-left: 50px;
+    height: 300px;
     display: inline-block;
-    padding: 2%;
+    alignment: left;
+    border-radius: 5px;
+}
+
+
+.serdesc{
+    width: 60%;
+    margin: 10px;
+    height: 280px;
+    vertical-align: top;
+    padding-left: 50px;
+    display: inline-block;
+    alignment: right;
 }
 
 #main, #show{
@@ -245,7 +267,7 @@ nav a:hover {
 }
 
 footer {
-    background-color: rgb(20, 14, 29);
+    background-color: 	#300000;
     color: white;
     font-size: 18px;
     padding-right: 4%;
@@ -266,12 +288,12 @@ footer {
     float: right;
     justify-content: center; align-items: center
 }
-.help {
+.block {
     width: 90%;
-    min-height: 80%;
+    min-height: 50%;
     margin: 0 auto;
     padding: 2%;
-    /*color: white;*/
+    background-color: white;
 }
 
 /*.container section {
@@ -303,9 +325,13 @@ article {
 #container, .container {
     margin-top: 20vh;
 }
+.index{
+    margin-top: 20vh;
+    background-color: white;
+}
 
 
-#course img {
+#service img {
     width: 280px;
     height: 280px;
     border-radius: 150px;
@@ -338,6 +364,7 @@ article {
     height: 350px;
     float: left;
     margin-bottom: 10px;
+    margin-left: 40px;
 }
 
 .not-teach input[type=submit] {
@@ -367,7 +394,7 @@ input[type=text], input[type=password], input[type=date]{
     font-size: 15px;
 }
 
-#course p {
+#service p {
     font-size: 20px;
 }
 
@@ -401,7 +428,7 @@ input[type=text], input[type=password], input[type=date]{
     margin-right: auto;
 }
 
-#course h4 {
+#service h4 {
     color: black;
 }
 
@@ -422,7 +449,7 @@ h2 {
 }
 
 #black{
-    background-color: rgb(20, 14, 29);
+    background-color: 	#300000 ;
     background-repeat: repeat;
     background-size: 40%;
 }

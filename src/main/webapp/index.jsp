@@ -18,9 +18,9 @@
 <header id="black">
     <nav>
         <ul>
-            <li><a href="${pageContext.request.contextPath}/registration">Личный кабинет</a></li>
-            <li><a href="/services/index/0">Услуги</a></li>
-            <li><a href="/barbers">Барберы</a></li>
+            <li><a href="${pageContext.request.contextPath}/profile">Личный кабинет</a></li>
+            <li><a href="${pageContext.request.contextPath}/service/index/0">Услуги</a></li>
+            <li><a href="${pageContext.request.contextPath}/barbers/0">Барберы</a></li>
             <a href="index.jsp"><img src="resources/img/logo.png" width="150" height="50" alt="barbershop"/></a>
         </ul>
     </nav>
