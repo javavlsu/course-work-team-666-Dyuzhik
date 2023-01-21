@@ -29,7 +29,7 @@
 </header>
 <div id="container">
     <main id="show">
-        <section class="help">
+        <section>
             <div class="show">
                 <h2>${user.username}</h2>
                 <h4>${user.lastname} ${user.name} ${user.midname}</h4>
@@ -55,12 +55,6 @@
                         </form>
                     </c:if>
 
-                    <c:if test="${status == 'admin'}">
-                        <form method="get" action="${pageContext.request.contextPath}/index">
-                            <button class="logout" type="submit" value="index">Управление пользователями</button>
-                        </form>
-
-                    </c:if>
                 </div>
             </div>
 
@@ -71,6 +65,12 @@
                         Выйти
                     </button>
                 </form>
+                <c:if test="${status == 'admin'}">
+                    <form method="get" action="${pageContext.request.contextPath}/index">
+                        <button class="logout" type="submit" value="index">Управление пользователями</button>
+                    </form>
+
+                </c:if>
             </div>
 
         </section>

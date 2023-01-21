@@ -1,5 +1,7 @@
 package com.vlsu.ispi.services;
 
+import com.vlsu.ispi.models.ArrayCheckRoles;
+import com.vlsu.ispi.models.CheckRoles;
 import com.vlsu.ispi.models.Role;
 import com.vlsu.ispi.models.User;
 import com.vlsu.ispi.repositories.RoleRepository;
@@ -33,55 +35,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    public void delete(int id) {
+        userRepository.deleteById(id);
+    }
+
     //
 //    public User getCurrentAuthUser() {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        return findByUsername(auth.getName());
-//    }
-//
-//    public String modifyRoles(CheckRoles checkRoles){
-//        String lists = "";
-//        List<Integer> admins = checkRoles.getAdmRoles();
-//        List<Integer> teachers = checkRoles.getTeachRoles();
-//        List<Integer> students = checkRoles.getStuRoles();
-//        List<List<Integer>> users = new ArrayList<>();
-//        users.add(admins);
-//        users.add(teachers);
-//        users.add(students);
-//        int number=0;
-//        for (List<Integer> userVar: users){
-//
-////            if (userVar.equals(admins)) number = 3; else
-////            if (userVar.equals(students)) number = 1; else
-////            if (userVar.equals(teachers)) number = 2;
-//
-//            if (number == 1) userVar = students; else
-//            if (number == 2) userVar = teachers; else
-//            if (number == 3) userVar = admins;
-//            lists+= "</br>" + number + " ";
-//
-//            for (Integer var: userVar){
-//                boolean check = false;
-//                User user = userRepository.findById((int)var);
-//                Set<Role> roles = user.getRoles();
-//                Iterator<Role> setIterator = roles.iterator();
-//                while (setIterator.hasNext()) {
-//                    Role currentElement = setIterator.next();
-//                    if (currentElement.getName().equals(roleRepository.findById(number).getName())) {
-//                        check = true;
-//                        setIterator.remove();
-//                        lists += "removed " + var + "</br>";
-//                    }
-//                }
-//                if (!check) {
-//                    roles.add(roleRepository.findById(number));
-//                    lists += "added " + var + "</br>";
-//                }
-//                user.setRoles(roles);
-//                userRepository.save(user);
-//            }
-//        }
-//        return lists;
 //    }
 //
 //    public void setRoles(User user, String role){
@@ -126,21 +87,58 @@ public class UserServiceImpl implements UserService {
         List<User> users = findAll();
         List<User> barbers = new ArrayList<>();
         for (User user : users) {
-            Set<Role> roles =  user.getRoles();
-            for (Role role:roles){
-                if ((role.getId() == 2)||(role.getId()==4)){
+            Set<Role> roles = user.getRoles();
+            for (Role role : roles) {
+                if ((role.getId() == 2) || (role.getId() == 4)) {
                     barbers.add(user);
                 }
             }
         }
-        return barbers.stream().skip(num*9).limit(9).toList();
+        return barbers.stream().skip(num * 9).limit(9).toList();
     }
 
-    //
-//    public User findOne(int id) {
-//        User foundUser = userRepository.findById(id);
-//        return foundUser;
-//    }
+    public void modifyRoles(CheckRoles checkRoles, String mode) {
+        List<Integer> admins = checkRoles.getAdmRoles();
+        List<Integer> barbers = checkRoles.getBarRoles();
+        List<Integer> proBarbers = checkRoles.getProbarRoles();
+        List<Integer> clients = checkRoles.getClRoles();
+        List<List<Integer>> users = new ArrayList<>();
+
+        users.add(admins);
+        users.add(barbers);
+        users.add(proBarbers);
+        users.add(clients);
+
+        for (List<Integer> userVar : users) {
+            int k = 0;
+            if (userVar.equals(admins)) k = 3;
+            else if (userVar.equals(barbers)) k = 2;
+            else if (userVar.equals(proBarbers)) k = 4;
+            else if (userVar.equals(clients)) k = 1;
+            for (Integer var : userVar) {
+                User user = userRepository.findById((int) var);
+                Set<Role> roles = user.getRoles();
+                if (mode.equals("add")) {
+                    roles.add(roleRepository.findById(k));
+                } else if (mode.equals("del")) {
+                    Iterator<Role> setIterator = roles.iterator();
+                    while (setIterator.hasNext()) {
+                        Role currentElement = setIterator.next();
+                        if (currentElement.getId() == k) {
+                            setIterator.remove();
+                        }
+                    }
+                }
+                user.setRoles(roles);
+                userRepository.save(user);
+            }
+        }
+    }
+
+
+    public User findOne(int id) {
+        return userRepository.findById(id);
+    }
 //
     @Override
     public void update(int id, User updatedUser) {
@@ -150,17 +148,12 @@ public class UserServiceImpl implements UserService {
         updatedUser.setUsername(oldUser.getUsername());
         updatedUser.setRoles(oldUser.getRoles());
         userRepository.save(updatedUser);
+
     }
-//
-//    public void updateUsername(int id, User updatedUser){
-//        User user = userRepository.findById(id);
-//        user.setUsername(updatedUser.getUsername());
-//        userRepository.save(user);
-//    }
-//
-//    public void updatePassword(int id, User updatedUser){
-//        User user = userRepository.findById(id);
-//        user.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
-//        userRepository.save(user);
-//    }
+
+    public void updatePassword(int id, User updatedUser){
+        User user = userRepository.findById(id);
+        user.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
+        userRepository.save(user);
+    }
 }

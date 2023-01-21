@@ -152,7 +152,7 @@ form{
     text-align: center;
     margin: 20px auto;
     display: block;
-    background-image: linear-gradient(to left,white,white 50%, rgb(0, 0, 0) 50%, rgb(0, 0, 0));
+    background-image: linear-gradient(to left,white,white 50%, #300000 50%, #300000);
     background-position: 100% 0;
     background-size: 200% 100%;
     transition: all .25s ease-in;
@@ -215,6 +215,7 @@ nav a:hover {
 
 .edit{
     padding: 2%;
+    background-color: white;
 }
 #edit img {
     width: 350px;

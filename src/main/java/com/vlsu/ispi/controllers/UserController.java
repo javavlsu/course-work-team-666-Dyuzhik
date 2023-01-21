@@ -1,8 +1,14 @@
 package com.vlsu.ispi.controllers;
 
+import com.vlsu.ispi.models.ArrayCheckRoles;
+import com.vlsu.ispi.models.CheckRoles;
 import com.vlsu.ispi.models.Role;
+
+import java.util.List;
 import java.util.logging.Logger;
+
 import com.vlsu.ispi.models.User;
+import com.vlsu.ispi.repositories.RoleRepository;
 import com.vlsu.ispi.services.SecurityService;
 import com.vlsu.ispi.services.UserService;
 import com.vlsu.ispi.services.UserServiceImpl;
@@ -17,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 @Controller
@@ -35,6 +42,9 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -58,7 +68,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return  "redirect:/service/index/0";
+        return "redirect:/service/index/0";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -75,28 +85,110 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profile(Model model){
+    public String profile(Model model) {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String username = loggedInUser.getName();
 
         com.vlsu.ispi.models.User db_user = userService.findByUsername(username);
-        if (db_user !=null){
+        if (db_user != null) {
             Set<Role> roles = db_user.getRoles();
-            for (Role role: roles){
-                if (role.getId() == 3) model.addAttribute("status","admin");
+            for (Role role : roles) {
+                if (role.getId() == 3) model.addAttribute("status", "admin");
             }
-            model.addAttribute("user",db_user);
+            model.addAttribute("user", db_user);
             return "user/profile";
-        }
-        else return "error/not_auth";
+        } else return "error/not_auth";
     }
 
     @GetMapping("/barbers/{num}")
-    public String barbers(@PathVariable int num, Model model){
-        model.addAttribute("barbers",userServiceImpl.findAllBarbers(num));
-        if (userServiceImpl.findAll().size()<=num*9+9)
-            model.addAttribute("end","true");
+    public String barbers(@PathVariable int num, Model model) {
+        model.addAttribute("barbers", userServiceImpl.findAllBarbers(num));
+        if (userServiceImpl.findAll().size() <= num * 9 + 9)
+            model.addAttribute("end", "true");
         return "barbers/index";
+    }
+
+    @GetMapping("/index")
+    public String index(Model model) {
+        model.addAttribute("users", userServiceImpl.findAll());
+        model.addAttribute("checkRoles", new ArrayCheckRoles());
+        return "user/index";
+    }
+
+    @PostMapping("/modifyRoles")
+    public String modifyRoles(@ModelAttribute("checkRoles") ArrayCheckRoles checkRoles, Model model) {
+        userServiceImpl.modifyRoles(checkRoles.getAddRoles(),"add");
+        userServiceImpl.modifyRoles(checkRoles.getDelRoles(),"del");
+        return "redirect: /index";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id, Model model) {
+        userServiceImpl.delete(id);
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = loggedInUser.getName();
+        com.vlsu.ispi.models.User db_user = userService.findByUsername(username);
+        if (db_user != null) {
+            model.addAttribute("users",userServiceImpl.findAll());
+            return "user/index";
+        }
+        return "redirect:/login?logout";
+    }
+
+    @GetMapping("/create")
+    public String create(@ModelAttribute("user") User user, Model model) {
+        List<Role> roles = roleRepository.findAll();
+        model.addAttribute("roles", roles);
+
+        return "user/create";
+    }
+
+    @PostMapping("/create")
+    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()){return "user/create";}
+        userServiceImpl.save(user);
+        return "redirect:/index";
+    }
+
+    @GetMapping("/update/{id}")
+    public String update(Model model, @PathVariable("id") int id) {
+        model.addAttribute("user", userServiceImpl.findOne(id));
+        return "user/edit";
+    }
+
+    @PostMapping("/update/{id}")
+    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                         @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()){
+            return "user/edit";
+        }
+        userServiceImpl.update(id, user);
+
+        User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        auth.setUsername(user.getUsername());
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/updatePassword/{id}")
+    public String updatePassword(Model model, @PathVariable("id") int id) {
+        model.addAttribute("user", userServiceImpl.findOne(id));
+        return "user/editPassword";
+    }
+
+    @PostMapping("/updatePassword/{id}")
+    public String updatePassword(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                                 @PathVariable("id") int id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        com.vlsu.ispi.models.User db_user = userService.findByUsername(username);
+        userValidator.pass_validate(user, bindingResult, db_user);
+        if (bindingResult.hasErrors()){
+            return "user/editPassword";
+        }
+        userServiceImpl.updatePassword(id, user);
+        User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        auth.setPassword(user.getPassword());
+        return "redirect:/profile";
     }
 
 }
