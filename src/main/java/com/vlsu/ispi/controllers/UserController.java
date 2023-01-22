@@ -160,13 +160,11 @@ public class UserController {
     @PostMapping("/update/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") int id) {
+
         if (bindingResult.hasErrors()){
             return "user/edit";
         }
         userServiceImpl.update(id, user);
-
-        User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        auth.setUsername(user.getUsername());
         return "redirect:/profile";
     }
 
@@ -185,9 +183,30 @@ public class UserController {
         if (bindingResult.hasErrors()){
             return "user/editPassword";
         }
+        String pass = user.getPassword();
         userServiceImpl.updatePassword(id, user);
-        User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        auth.setPassword(user.getPassword());
+        securityService.autoLogin(db_user.getUsername(), pass);
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/updateUsername/{id}")
+    public String updateUsername(Model model, @PathVariable("id") int id) {
+        model.addAttribute("user", userServiceImpl.findOne(id));
+        return "user/editUsername";
+    }
+
+    @PostMapping("/updateUsername/{id}")
+    public String updateUsername(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                                 @PathVariable("id") int id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        com.vlsu.ispi.models.User db_user = userService.findByUsername(username);
+        userValidator.up_validate(user, bindingResult, db_user);
+        if (bindingResult.hasErrors()){
+            return "user/editUsername";
+        }
+        String pass = user.getPassword();
+        userServiceImpl.updateUsername(id, user);
+        securityService.autoLogin(user.getUsername(), pass);
         return "redirect:/profile";
     }
 

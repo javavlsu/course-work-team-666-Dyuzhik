@@ -21,6 +21,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private SecurityService securityService;
+
+    @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
@@ -39,11 +42,11 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    //
-//    public User getCurrentAuthUser() {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        return findByUsername(auth.getName());
-//    }
+
+    public User getCurrentAuthUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return findByUsername(auth.getName());
+    }
 //
 //    public void setRoles(User user, String role){
 //        Set<Role> roles = user.getRoles();
@@ -110,21 +113,37 @@ public class UserServiceImpl implements UserService {
         users.add(clients);
 
         for (List<Integer> userVar : users) {
-            int k = 0;
-            if (userVar.equals(admins)) k = 3;
-            else if (userVar.equals(barbers)) k = 2;
-            else if (userVar.equals(proBarbers)) k = 4;
-            else if (userVar.equals(clients)) k = 1;
+            int role = 0;
+            int reverse = 0;
+            if (userVar.equals(admins)) role = 3;
+            else if (userVar.equals(barbers)) {
+                role = 2;
+                reverse = 4;
+            }
+            else if (userVar.equals(proBarbers)) {
+                role = 4;
+                reverse = 2;
+            }
+            else if (userVar.equals(clients)) role = 1;
             for (Integer var : userVar) {
                 User user = userRepository.findById((int) var);
                 Set<Role> roles = user.getRoles();
                 if (mode.equals("add")) {
-                    roles.add(roleRepository.findById(k));
+                    if ((role==4)||(role==2)){
+                        Iterator<Role> setIterator = roles.iterator();
+                        while (setIterator.hasNext()) {
+                            Role currentElement = setIterator.next();
+                            if (currentElement.getId() == reverse) {
+                                setIterator.remove();
+                            }
+                        }
+                    }
+                    roles.add(roleRepository.findById(role));
                 } else if (mode.equals("del")) {
                     Iterator<Role> setIterator = roles.iterator();
                     while (setIterator.hasNext()) {
                         Role currentElement = setIterator.next();
-                        if (currentElement.getId() == k) {
+                        if (currentElement.getId() == role) {
                             setIterator.remove();
                         }
                     }
@@ -139,21 +158,26 @@ public class UserServiceImpl implements UserService {
     public User findOne(int id) {
         return userRepository.findById(id);
     }
-//
+
     @Override
     public void update(int id, User updatedUser) {
         updatedUser.setId(id);
         User oldUser = userRepository.findById(id);
         updatedUser.setPassword(oldUser.getPassword());
-        updatedUser.setUsername(oldUser.getUsername());
         updatedUser.setRoles(oldUser.getRoles());
+        updatedUser.setUsername(oldUser.getUsername());
         userRepository.save(updatedUser);
-
     }
 
     public void updatePassword(int id, User updatedUser){
         User user = userRepository.findById(id);
         user.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
+        userRepository.save(user);
+    }
+
+    public void updateUsername(int id, User updatedUser){
+        User user = userRepository.findById(id);
+        user.setUsername(updatedUser.getUsername());
         userRepository.save(user);
     }
 }

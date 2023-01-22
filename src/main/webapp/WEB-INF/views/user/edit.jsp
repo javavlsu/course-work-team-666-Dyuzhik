@@ -33,13 +33,6 @@
         <form:form method="POST" modelAttribute="user" action="/update/${user.id}?${_csrf.parameterName}=${_csrf.token}">
             <h3 class="form-signin-heading">Редактирование профиля</h3>
 
-            <spring:bind path="username">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="text" path="username" class="form-control" value="${user.username}" placeholder="Никнейм"></form:input>
-                    <form:errors path="username"></form:errors>
-                </div>
-            </spring:bind>
-
             <spring:bind path="lastname">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input type="text" path="lastname" class="form-control" value="${user.lastname}" placeholder="Фамилия"></form:input>

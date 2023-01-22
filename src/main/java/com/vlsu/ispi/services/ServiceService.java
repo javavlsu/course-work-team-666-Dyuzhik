@@ -1,10 +1,13 @@
 package com.vlsu.ispi.services;
 
+import com.vlsu.ispi.models.Role;
 import com.vlsu.ispi.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ServiceService {
@@ -19,10 +22,32 @@ public class ServiceService {
         return serviceRepository.findAll();
     }
 
+    public com.vlsu.ispi.models.Service findOne(int id) {
+        com.vlsu.ispi.models.Service service = serviceRepository.findById(id);
+        return service;
+    }
+
     public List<com.vlsu.ispi.models.Service> getPage(int num){
         List<com.vlsu.ispi.models.Service> services = serviceRepository.findAll().stream().skip(num*9).limit(9).toList();
         return services;
     }
+
+    public void save(com.vlsu.ispi.models.Service service){
+        serviceRepository.save(service);
+    }
+
+    public void update(int id, com.vlsu.ispi.models.Service updatedService) {
+        updatedService.setId(id);
+        serviceRepository.save(updatedService);
+    }
+
+    public void delete(int id) {
+        serviceRepository.deleteById(id);
+    }
+
+
+
+
 
 
 }

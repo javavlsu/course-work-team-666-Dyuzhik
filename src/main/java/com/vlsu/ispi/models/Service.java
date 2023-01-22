@@ -1,6 +1,9 @@
 package com.vlsu.ispi.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -12,12 +15,16 @@ public class Service {
     private int id;
 
     @Column(name = "name")
+    @NotEmpty(message = "Пожалуйста, введите название")
+    @Size(min=2, max=500, message = "Название не должно быть короче 2 и длиннее 500 символов")
     private String name;
 
     @Column(name = "photo")
+    @NotEmpty(message = "Пожалуйста, добавьте фото")
     private String photo;
 
     @Column(name = "cost")
+    @Min(value = 0, message = "Стоимость не может быть меньше нуля")
     private int cost;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)

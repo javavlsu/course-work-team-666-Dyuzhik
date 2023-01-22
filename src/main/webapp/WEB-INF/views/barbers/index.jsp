@@ -29,15 +29,11 @@
     </nav>
 </header>
 <div class="index">
-    <main>
-
-        <form action="${pageContext.request.contextPath}/barbers/find/" path="name">
-            <input type="text" placeholder="Search" name="barbers" class="search">
-        </form>
+    <main id="index">
 
         <c:forEach items="${barbers}" var="barberlist">
             <div class="service">
-                <img class="servimg" src="${barberlist.photolink}" alt="Что-то пошло не так">
+                <img class="servimg" src="${barberlist.photolink}"  alt="Нет фото">
                 <div class="serdesc">
                     <h3>${barberlist.username}</h3>
                     <h4>${barberlist.lastname} ${barberlist.name} ${barberlist.midname}</h4>
@@ -50,8 +46,11 @@
                         </c:if>
                     </c:forEach>
                     <div id="management">
-                        <form method="get" action="/barber/${barberlist.id}">
+                        <form method="get" action="/feedback/add/${barberlist.id}">
                             <button class="detailed" type="submit" value="Оставить отзыв">Оставить отзыв</button>
+                        </form>
+                        <form method="get" action="/feedback/index/${barberlist.id}">
+                            <button class="detailed" type="submit" value="Посмотреть отзывы">Посмотреть отзывы</button>
                         </form>
                     </div>
                 </div>

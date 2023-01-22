@@ -156,10 +156,10 @@
                     </div>
                 </form:form>
             </c:if>
-            <form method="get" action="/create">
+            <form method="get" action="${pageContext.request.contextPath}/create">
                 <button class="teach" type="submit" >Добавить пользователя</button>
             </form>
-            <form method="get" action="/profile">
+            <form method="get" action="${pageContext.request.contextPath}/profile">
                 <button class="teach" type="submit" >Назад</button>
             </form>
         </section>

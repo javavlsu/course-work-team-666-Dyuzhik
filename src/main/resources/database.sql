@@ -26,7 +26,7 @@ create table User_role
 );
 
 insert into User (lastname, midname, firstname, username, password, photo)
-values ('Админов','Админович','Админ','admin', '$2a$11$4wXmhyZHOM8MJamwV6yVAeF5a2Q','https://memepedia.ru/wp-content/uploads/2017/09/%D1%82%D0%BE%D0%BC-%D0%B7%D0%B2%D0%BE%D0%BD%D0%B8%D1%82-%D0%BF%D0%BE-%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%D1%83-7.jpg'),
+values ('Админов','Админович','Админ','admin', '$2a$11$4wXmhyZHOM8MJamwV6yVAeF5a2Q','https://fikiwiki.com/uploads/posts/2022-02/1644852387_2-fikiwiki-com-p-kartinki-admina-2.jpg'),
        ('Дюжик', 'Викторович', 'Сергей','aspirin', '$2a$11$4wXmhyZHOM8MJamwV6yVAeF5a2Q','https://sun9-61.userapi.com/c841635/v841635100/1651c/WVU7TqlC2qE.jpg');
 /*passwords: qwertyqwerty*/
 

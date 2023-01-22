@@ -29,11 +29,14 @@
     </nav>
 </header>
 <div class="index">
-    <main>
-
-        <form action="${pageContext.request.contextPath}/service/find/" path="name">
-            <input type="text" placeholder="Search" name="services" class="search">
-        </form>
+    <main id="index">
+        <c:if test="${status == 'admin'}">
+            <form method="get" action="${pageContext.request.contextPath}/service/add">
+                <button class="detailed" type="submit" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    Добавить услугу
+                </button>
+            </form>
+        </c:if>
 
         <c:forEach items="${service}" var="servicelist">
             <div class="service">
@@ -41,27 +44,45 @@
                 <div class="serdesc">
                     <h3>${servicelist.name}</h3>
                     <h4>${servicelist.cost}₽</h4>
-                    <div id="management">
-                        <form method="get" action="/service/${servicelist.id}">
-                            <button class="detailed" type="submit" value="Запись">Запись</button>
-                        </form>
-                    </div>
-                    <c:if test="${status == 'admin'}">
-                        <form method="post" action="/service/delete/${servicelist.id}">
-                            <button class="detailed" type="submit" name="${_csrf.parameterName}" value="${_csrf.token}">
-                                Удалить услугу
-                            </button>
-                        </form>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${status == 'admin'}">
+                            <form method="get" action="/service/update/${servicelist.id}">
+                                <button class="detailed" type="submit" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                    Редактировать услугу
+                                </button>
+                            </form>
+                            <form method="post" action="/service/delete/${servicelist.id}">
+                                <button class="detailed" onclick="return confirm('Вы действительно хотите удалить услугу?')" type="submit" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                    Удалить услугу
+                                </button>
+                            </form>
+                        </c:when>
+                        <c:otherwise>
+                            <div id="management">
+                                <form method="get" action="/service/${servicelist.id}">
+                                    <button class="detailed" type="submit" value="Запись">Запись</button>
+                                </form>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </c:forEach>
         <div class="pages">
             <section class="page">
                 <c:if test="${num>0}">
-                    <form method="get" action="/service/index/${num-1}">
-                        <button class="previous" type="submit" value="Подробнее">${num}</button>
-                    </form>
+                    <c:choose>
+                    <c:when test="${status == 'admin'}">
+                        <form method="get" action="/service/admin/${num-1}">
+                            <button class="previous" type="submit" value="Подробнее">${num}</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <form method="get" action="/service/index/${num-1}">
+                            <button class="previous" type="submit" value="Подробнее">${num}</button>
+                        </form>
+                    </c:otherwise>
+                    </c:choose>
                 </c:if>
             </section>
             <section class="page">
@@ -69,9 +90,18 @@
             </section>
             <section class="page">
                 <c:if test="${end != 'true'}">
-                    <form method="get" action="/service/index/${num+1}">
-                        <button class="next" type="submit" value="Подробнее">${num +2}</button>
-                    </form>
+                    <c:choose>
+                        <c:when test="${status == 'admin'}">
+                            <form method="get" action="/service/admin/${num+1}">
+                                <button class="next" type="submit" value="Подробнее">${num +2}</button>
+                            </form>
+                        </c:when>
+                        <c:otherwise>
+                            <form method="get" action="/service/index/${num+1}">
+                                <button class="next" type="submit" value="Подробнее">${num +2}</button>
+                            </form>
+                        </c:otherwise>
+                    </c:choose>
                 </c:if>
             </section>
         </div>

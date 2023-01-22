@@ -38,15 +38,15 @@
                         <button class="logout" type="submit" value="update">Обновить данные профиля</button>
                     </form>
 
-<%--                    <form method="get" action="/updateUsername/${user.id}">--%>
-<%--                        <button class="logout" type="submit" value="update">Сменить логин</button>--%>
-<%--                    </form>--%>
+                    <form method="get" action="/updateUsername/${user.id}">
+                        <button class="logout" type="submit" value="update">Сменить логин</button>
+                    </form>
 
                     <form method="get" action="/updatePassword/${user.id}">
                         <button class="logout" type="submit" value="update">Сменить пароль</button>
                     </form>
 
-                    <c:if test="${user.id != 13}">
+                    <c:if test="${user.id != 1}">
                         <form method="post" action="/delete/${user.id}?${_csrf.parameterName}=${_csrf.token}">
                             <button class="logout" type="submit"
                                     onclick="return confirm('Вы действительно хотите удалить профиль?')"
@@ -55,21 +55,25 @@
                         </form>
                     </c:if>
 
+                    <form id="logoutForm" method="post" action="${contextPath}/logout">
+                        <button class="logout" type="submit" name="${_csrf.parameterName}" value="${_csrf.token}">
+                            Выйти
+                        </button>
+                    </form>
+
                 </div>
             </div>
 
             <img src="${user.photolink}" alt="Фото пока нет">
             <div class="profile">
-                <form id="logoutForm" method="post" action="${contextPath}/logout">
-                    <button class="logout" type="submit" name="${_csrf.parameterName}" value="${_csrf.token}">
-                        Выйти
-                    </button>
-                </form>
+
                 <c:if test="${status == 'admin'}">
                     <form method="get" action="${pageContext.request.contextPath}/index">
                         <button class="logout" type="submit" value="index">Управление пользователями</button>
                     </form>
-
+                    <form method="get" action="${pageContext.request.contextPath}/service/admin/0">
+                        <button class="logout" type="submit" value="index">Управление услугами</button>
+                    </form>
                 </c:if>
             </div>
 
