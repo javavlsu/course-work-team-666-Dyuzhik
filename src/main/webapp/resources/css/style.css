@@ -710,3 +710,15 @@ label{
     padding: 0;
     margin: 0;
 }
+
+.code2{
+    color: darkgreen;
+}
+
+.code5{
+    color:darkred;
+}
+
+.none{
+    margin: 5px;
+}

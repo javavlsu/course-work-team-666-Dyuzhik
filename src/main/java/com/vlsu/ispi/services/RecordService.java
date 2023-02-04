@@ -34,6 +34,65 @@ public class RecordService {
         this.statusService = statusService;
     }
 
+    public List<Record> getAll(User user) throws ParseException {
+        update();
+        return recordRepository.findRecordByClientId(user.getId());
+    }
+
+    public String update() throws ParseException {
+        List<Record> records = recordRepository.findAll();
+        Calendar nD = Calendar.getInstance();
+        Calendar nT = Calendar.getInstance();
+        String s = "";
+        nD.set(Calendar.HOUR_OF_DAY, 0);
+        nD.set(Calendar.MINUTE, 0);
+        nD.set(Calendar.SECOND, 0);
+        nD.set(Calendar.MILLISECOND,0);
+        s+= nD.getTime()+" ";
+        for (Record record : records) {
+            Calendar xT = Calendar.getInstance();
+            xT.setTime(record.getTime());
+            if (record.getStatus().getId() < 4) {
+                if (record.getStatus().getId() == 1) {
+                    s+=record.getDate() + " ";
+                    s+=xT.get(Calendar.HOUR_OF_DAY) + " ";
+                    s+=nT.get(Calendar.HOUR_OF_DAY);
+                    if (
+                            (record.getDate().compareTo(nD.getTime()) < 0) ||
+                            ((record.getDate().compareTo(nD.getTime()) == 0)
+                                    && (xT.get(Calendar.HOUR_OF_DAY) <= nT.get(Calendar.HOUR_OF_DAY)))) {
+                        record.setStatus(statusService.findOne(5));
+                        recordRepository.save(record);
+                    }
+                } else if (record.getDate().compareTo(nD.getTime()) == 0) {
+                    if (nT.get(Calendar.HOUR_OF_DAY) == xT.get(Calendar.HOUR_OF_DAY)) {
+                        record.setStatus(statusService.findOne(3));
+                        recordRepository.save(record);
+
+                    } else if (xT.get(Calendar.HOUR_OF_DAY) < nT.get(Calendar.HOUR_OF_DAY)) {
+                        if ((xT.get(Calendar.HOUR_OF_DAY) + 1 > nT.get(Calendar.HOUR_OF_DAY))) {
+                            record.setStatus(statusService.findOne(3));
+                            recordRepository.save(record);
+                        } else{
+                            record.setStatus(statusService.findOne(4));
+                            recordRepository.save(record);
+                        }
+                    }
+                } else if (record.getDate().compareTo(nD.getTime()) < 0){
+                    record.setStatus(statusService.findOne(4));
+                    recordRepository.save(record);
+                }
+            }
+        }
+        return s;
+    }
+
+    public void delete(int id) {
+        Record record = recordRepository.findById(id);
+        record.setStatus(statusService.findOne(5));
+        recordRepository.save(record);
+    }
+
     public void save(Record record, int id, Date date) {
         User barber = userServiceImpl.findOne(record.getBarberID());
         com.vlsu.ispi.models.Service service = serviceService.findOne(id);
@@ -45,14 +104,14 @@ public class RecordService {
         record.setStatus(statusService.findOne(1));
 
         boolean flag = false;
-        for (Role role:barber.getRoles()) {
+        for (Role role : barber.getRoles()) {
             if (role.getId() == 4) {
                 flag = true;
                 break;
             }
         }
 
-        if (flag) record.setCost(service.getCost() + service.getCost()/5);
+        if (flag) record.setCost(service.getCost() + service.getCost() / 5);
         else record.setCost(service.getCost());
 
         recordRepository.save(record);
@@ -68,6 +127,7 @@ public class RecordService {
         int maxCountRecordsForDate = countBarbers * countTimes;
         Calendar start = Calendar.getInstance();
         start.set(Calendar.HOUR, 0);
+        start.add(Calendar.DAY_OF_MONTH, 1);
         List<Date> dates = new ArrayList<>();
         dates.add(start.getTime());
         for (int i = 1; i < 30; i++) {
@@ -90,16 +150,17 @@ public class RecordService {
         List<User> barbers = userServiceImpl.findAllBarbers();
         List<BarberCost> costs = new ArrayList<>();
         int standartCost = serviceService.findOne(service).getCost();
-        int newCost = standartCost + standartCost/5;
-        for (User barber:barbers) {
+        int newCost = standartCost + standartCost / 5;
+        for (User barber : barbers) {
             boolean flag = false;
-            for (Role role: barber.getRoles()) {
+            for (Role role : barber.getRoles()) {
                 if (role.getId() == 4) {
                     flag = true;
                     break;
                 }
             }
-            if (flag) costs.add(new BarberCost(barber,newCost)); else costs.add(new BarberCost(barber,standartCost));
+            if (flag) costs.add(new BarberCost(barber, newCost));
+            else costs.add(new BarberCost(barber, standartCost));
         }
         for (Time time : times) {
             java.sql.Time timeValue = new java.sql.Time(formatter.parse(time.getTime()).getTime());

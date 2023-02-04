@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface RecordRepository extends JpaRepository<Record, Integer> {
     Record findById(int id);
+    List<Record> findRecordByClientId(int id);
     List<Record> findRecordByServiceId(int id);
     List<Record> findRecordByServiceIdAndDate(int id, Date date);
     List<Record> findRecordByDate(Date date);

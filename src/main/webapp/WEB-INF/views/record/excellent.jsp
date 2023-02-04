@@ -32,7 +32,6 @@
     <main id="show">
         <section class="help">
             <h4>Запись успешно оформлена. Ожидайте подтверждение. </h4>
-            <h4>${time}</h4>
         </section>
     </main>
 </div>

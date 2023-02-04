@@ -104,4 +104,26 @@ public class RecordController {
         }
         return "error/not_access";
     }
+
+    @GetMapping("/index")
+    public String index(Model model) throws ParseException {
+        User db_user = userServiceImpl.getCurrentAuthUser();
+        if (db_user != null) {
+            model.addAttribute("records",recordService.getAll(db_user));
+            model.addAttribute("dates",recordService.update());
+            model.addAttribute("status","client");
+            return "record/index";
+        }
+        return "error/not_auth";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id,Model model){
+        User user = userServiceImpl.getCurrentAuthUser();
+        if (user != null){
+            recordService.delete(id);
+            return "redirect:/record/index";
+        }
+        return "error/not_auth";
+    }
 }
