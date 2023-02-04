@@ -59,7 +59,7 @@
                         </c:when>
                         <c:otherwise>
                             <div id="management">
-                                <form method="get" action="/service/${servicelist.id}">
+                                <form method="get" action="/record/choose/${servicelist.id}">
                                     <button class="detailed" type="submit" value="Запись">Запись</button>
                                 </form>
                             </div>

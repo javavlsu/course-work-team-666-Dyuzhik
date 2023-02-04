@@ -1,4 +1,4 @@
-package com.vlsu.ispi.models;
+package com.vlsu.ispi.classes;
 
 import java.util.ArrayList;
 import java.util.List;

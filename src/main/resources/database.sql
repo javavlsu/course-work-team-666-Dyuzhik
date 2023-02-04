@@ -26,8 +26,10 @@ create table User_role
 );
 
 insert into User (lastname, midname, firstname, username, password, photo)
-values ('Админов','Админович','Админ','admin', '$2a$11$4wXmhyZHOM8MJamwV6yVAeF5a2Q','https://fikiwiki.com/uploads/posts/2022-02/1644852387_2-fikiwiki-com-p-kartinki-admina-2.jpg'),
-       ('Дюжик', 'Викторович', 'Сергей','aspirin', '$2a$11$4wXmhyZHOM8MJamwV6yVAeF5a2Q','https://sun9-61.userapi.com/c841635/v841635100/1651c/WVU7TqlC2qE.jpg');
+values ('Админов', 'Админович', 'Админ', 'admin', '$2a$11$4wXmhyZHOM8MJamwV6yVAeF5a2Q',
+        'https://fikiwiki.com/uploads/posts/2022-02/1644852387_2-fikiwiki-com-p-kartinki-admina-2.jpg'),
+       ('Дюжик', 'Викторович', 'Сергей', 'aspirin', '$2a$11$4wXmhyZHOM8MJamwV6yVAeF5a2Q',
+        'https://sun9-61.userapi.com/c841635/v841635100/1651c/WVU7TqlC2qE.jpg');
 /*passwords: qwertyqwerty*/
 
 insert into Role(name)
@@ -41,7 +43,7 @@ values (1, 1),
        (1, 2),
        (1, 3),
        (2, 1),
-       (2,4);
+       (2, 4);
 
 # drop table service;
 create table Service
@@ -78,15 +80,16 @@ create table Barber
 
 create table Record
 (
-    id         int      not null auto_increment primary key,
-    client_id  int      not null,
-    barber_id  int      not null,
-    service_id int      not null,
-    status_id  int      not null,
-    date       datetime not null,
-    cost       int      not null,
+    id         int  not null auto_increment primary key,
+    client_id  int  not null,
+    barber_id  int  not null,
+    service_id int  not null,
+    status_id  int  not null,
+    date       date not null,
+    time       time not null,
+    cost       int  not null,
     foreign key (client_id) references User (id),
-    foreign key (barber_id) references Barber (id),
+    foreign key (barber_id) references User (id),
     foreign key (service_id) references service (id),
     foreign key (status_id) references Status (id)
 );
@@ -96,9 +99,11 @@ values ('бабер'),
        ('про-барбер');
 
 insert into Status(name)
-values ('Активен'),
+values ('Ожидание подтверждения'),
+       ('Активен'),
        ('В процессе'),
-       ('Завершён');
+       ('Завершён'),
+       ('Отменён');
 
 insert into Service(name, photo, cost)
 values ('Ящерица', 'https://video-pricheski.ru/photo/img/pricheska-iashcheritsa-na-golove-foto-16.jpg', 1000),
@@ -121,3 +126,14 @@ values ('Ящерица', 'https://video-pricheski.ru/photo/img/pricheska-iashch
         1600),
        ('Бэтмен', 'https://ololo.tv/wp-content/uploads/2019/04/dwhfz.jpg', 500),
        ('Доктор Осьминог', 'https://content.onliner.by/news/820x5616/d4e03f4da3945acb47203b5b3a268eee.jpeg', 5990);
+
+insert into Record(client_id, barber_id, service_id, status_id, date, time, cost)
+VALUES (1,2,2,1,'2023-02-02','12:00',13),
+       (1,2,2,1,'2023-02-02','13:00',13),
+       (1,2,2,1,'2023-02-02','14:00',13),
+       (1,2,2,1,'2023-02-02','15:00',13),
+       (1,2,2,1,'2023-02-02','16:00',13),
+       (1,2,2,1,'2023-02-02','17:00',13),
+       (1,2,2,1,'2023-02-02','18:00',13),
+       (1,2,2,1,'2023-02-02','11:00',13),
+       (1,2,2,1,'2023-02-02','10:00',13);

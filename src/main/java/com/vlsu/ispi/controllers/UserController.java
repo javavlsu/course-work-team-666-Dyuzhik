@@ -1,11 +1,9 @@
 package com.vlsu.ispi.controllers;
 
-import com.vlsu.ispi.models.ArrayCheckRoles;
-import com.vlsu.ispi.models.CheckRoles;
+import com.vlsu.ispi.classes.ArrayCheckRoles;
 import com.vlsu.ispi.models.Role;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.vlsu.ispi.models.User;
 import com.vlsu.ispi.repositories.RoleRepository;
@@ -102,7 +100,7 @@ public class UserController {
 
     @GetMapping("/barbers/{num}")
     public String barbers(@PathVariable int num, Model model) {
-        model.addAttribute("barbers", userServiceImpl.findAllBarbers(num));
+        model.addAttribute("barbers", userServiceImpl.getBarberPage(num));
         if (userServiceImpl.findAll().size() <= num * 9 + 9)
             model.addAttribute("end", "true");
         return "barbers/index";

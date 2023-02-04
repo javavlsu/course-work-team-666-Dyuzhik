@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Войдите</title>
+    <title>Доступ закрыт</title>
     <link rel="stylesheet" type="text/css" href="../../../resources/css/style.css">
 
 </head>
@@ -23,16 +23,16 @@
             <li><a href="${pageContext.request.contextPath}/profile">Личный кабинет</a></li>
             <li><a href="${pageContext.request.contextPath}/service/index/0">Услуги</a></li>
             <li><a href="${pageContext.request.contextPath}/barbers/0">Барберы</a></li>
-            <a href="../../../index.jsp"><img src="../../../resources/img/logo.png" width="150" height="50" alt="barbershop"/></a>
+            <a href="../../../index.jsp"><img src="../../../resources/img/logo.png" width="150" height="50"
+                                              alt="barbershop"/></a>
         </ul>
     </nav>
 </header>
 <div id="container">
-    <main id="auth">
-        <section class="block">
-            <h4>Чтобы получить доступ к этому разделу, пожалуйста</h4>
-            <h1>${date}</h1>
-            <h4><a href="${pageContext.request.contextPath}/login">Войдите</a></h4>
+    <main id="show">
+        <section class="help">
+            <h4>Запись успешно оформлена. Ожидайте подтверждение. </h4>
+            <h4>${time}</h4>
         </section>
     </main>
 </div>
@@ -41,5 +41,5 @@
     <p>E-mail: thebestbarbershopintheworld@the.best</p>
 </footer>
 </body>
-</html>
 
+</html>

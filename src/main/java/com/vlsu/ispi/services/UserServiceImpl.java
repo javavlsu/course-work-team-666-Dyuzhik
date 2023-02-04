@@ -1,7 +1,6 @@
 package com.vlsu.ispi.services;
 
-import com.vlsu.ispi.models.ArrayCheckRoles;
-import com.vlsu.ispi.models.CheckRoles;
+import com.vlsu.ispi.classes.CheckRoles;
 import com.vlsu.ispi.models.Role;
 import com.vlsu.ispi.models.User;
 import com.vlsu.ispi.repositories.RoleRepository;
@@ -86,7 +85,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public List<User> findAllBarbers(int num) {
+    public List<User> findAllBarbers() {
         List<User> users = findAll();
         List<User> barbers = new ArrayList<>();
         for (User user : users) {
@@ -97,7 +96,18 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
+        return barbers;
+    }
+
+    public List<User> getBarberPage(int num){
+        List<User> barbers = findAllBarbers();
         return barbers.stream().skip(num * 9).limit(9).toList();
+    }
+
+    public List<User> findAllBarbersWithoutUser(User user){
+        List<User> barbers = findAllBarbers();
+        barbers.removeIf(barber -> barber.getId() == user.getId());
+        return barbers;
     }
 
     public void modifyRoles(CheckRoles checkRoles, String mode) {

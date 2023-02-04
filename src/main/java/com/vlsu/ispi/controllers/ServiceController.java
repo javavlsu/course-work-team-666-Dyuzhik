@@ -21,14 +21,17 @@ import java.util.Set;
 @Controller
 @RequestMapping("/service")
 public class ServiceController {
-    @Autowired
-    private UserService userService;
+
+    private final UserServiceImpl userServiceImpl;
+
+    private final ServiceService serviceService;
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    public ServiceController(UserServiceImpl userServiceImpl, ServiceService serviceService){
+        this.userServiceImpl = userServiceImpl;
+        this.serviceService = serviceService;
+    }
 
-    @Autowired
-    private ServiceService serviceService;
 
     @GetMapping("/index/{num}")
     public String index(@PathVariable int num, Model model) {
@@ -40,9 +43,7 @@ public class ServiceController {
 
     @GetMapping("/admin/{num}")
     public String admin(@PathVariable int num, Model model) {
-        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-        String username = loggedInUser.getName();
-        com.vlsu.ispi.models.User db_user = userService.findByUsername(username);
+        User db_user = userServiceImpl.getCurrentAuthUser();
         if (db_user != null) {
             Set<Role> roles = db_user.getRoles();
             for (Role role : roles)
@@ -57,14 +58,11 @@ public class ServiceController {
 
     @GetMapping("/add")
     public String create(@ModelAttribute("service") Service service) {
-        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-        String username = loggedInUser.getName();
-        com.vlsu.ispi.models.User db_user = userService.findByUsername(username);
+        User db_user = userServiceImpl.getCurrentAuthUser();
         if (db_user != null) {
             Set<Role> roles = db_user.getRoles();
             for (Role role : roles)
                 if (role.getId() == 3) return "service/create";
-
         }
         return "error/not_access";
     }
@@ -78,9 +76,6 @@ public class ServiceController {
                 if (role.getId() == 3) {
                     if (bindingResult.hasErrors())
                         return "service/create";
-                    if (bindingResult.hasErrors()) {
-                        return "service/create";
-                    }
                     serviceService.save(service);
                     return "redirect:/service/admin/0";
                 }

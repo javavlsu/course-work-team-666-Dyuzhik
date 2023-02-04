@@ -1,4 +1,4 @@
-package com.vlsu.ispi.models;
+package com.vlsu.ispi.classes;
 
 public class ArrayCheckRoles {
     private CheckRoles addRoles;

@@ -50,6 +50,9 @@ public class User {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Record> records;
 
+    @OneToMany(mappedBy = "barber", cascade = CascadeType.ALL)
+    private List<Record> bRecords;
+
     public User() {
 
     }
