@@ -92,6 +92,7 @@ public class UserController {
             Set<Role> roles = db_user.getRoles();
             for (Role role : roles) {
                 if (role.getId() == 3) model.addAttribute("status", "admin");
+                if ((role.getId() == 2)||(role.getId() == 4)) model.addAttribute("barber","true");
             }
             model.addAttribute("user", db_user);
             return "user/profile";

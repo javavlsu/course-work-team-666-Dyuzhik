@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Войдите</title>
+    <title>Упс</title>
     <link rel="stylesheet" type="text/css" href="../../../resources/css/style.css">
 
 </head>
@@ -30,8 +30,8 @@
 <div id="container">
     <main id="auth">
         <section class="block">
-            <h4>Чтобы получить доступ к этому разделу, пожалуйста</h4>
-            <h4><a href="${pageContext.request.contextPath}/login">Войдите</a></h4>
+            <h4>Упс... Кажется что-то пошло не так. </h4>
+            <h4>Уже исправляем.</h4>
         </section>
     </main>
 </div>
@@ -41,4 +41,5 @@
 </footer>
 </body>
 </html>
+
 

@@ -1,6 +1,7 @@
 package com.vlsu.ispi.services;
 
 import com.vlsu.ispi.classes.CheckRoles;
+import com.vlsu.ispi.models.Feedback;
 import com.vlsu.ispi.models.Role;
 import com.vlsu.ispi.models.User;
 import com.vlsu.ispi.repositories.RoleRepository;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -46,36 +48,7 @@ public class UserServiceImpl implements UserService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return findByUsername(auth.getName());
     }
-//
-//    public void setRoles(User user, String role){
-//        Set<Role> roles = user.getRoles();
-//        roles.add(roleRepository.findRoleByName(role));
-//        user.setRoles(roles);
-//        userRepository.save(user);
-//    }
-//
-//    public void setRoles(int user, int role){
-//        User user1 = userRepository.findById(user);
-//        Set<Role> roles = user1.getRoles();
-//        roles.add(roleRepository.findById(role));
-//        user1.setRoles(roles);
-//        userRepository.save(user1);
-//    }
-//
-//    public void deleteRoles(int user, int role){
-//        User user1 = userRepository.findById(user);
-//        Set<Role> roles =  user1.getRoles();
-//        Iterator<Role> setIterator = roles.iterator();
-//        while (setIterator.hasNext()) {
-//            Role currentElement = setIterator.next();
-//            if (currentElement.getName().equals(roleRepository.findById(role).getName())) {
-//                setIterator.remove();
-//            }
-//        }
-//        user1.setRoles(roles);
-//        userRepository.save(user1);
-//    }
-//
+
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -102,12 +75,6 @@ public class UserServiceImpl implements UserService {
     public List<User> getBarberPage(int num){
         List<User> barbers = findAllBarbers();
         return barbers.stream().skip(num * 9).limit(9).toList();
-    }
-
-    public List<User> findAllBarbersWithoutUser(User user){
-        List<User> barbers = findAllBarbers();
-        barbers.removeIf(barber -> barber.getId() == user.getId());
-        return barbers;
     }
 
     public void modifyRoles(CheckRoles checkRoles, String mode) {

@@ -1,7 +1,6 @@
 package com.vlsu.ispi.services;
 
 import com.vlsu.ispi.classes.BarberCost;
-import com.vlsu.ispi.classes.StructTimeBarber;
 import com.vlsu.ispi.classes.TimeBarber;
 import com.vlsu.ispi.models.Record;
 import com.vlsu.ispi.classes.Time;
@@ -10,12 +9,14 @@ import com.vlsu.ispi.models.User;
 import com.vlsu.ispi.repositories.RecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Transactional(readOnly = true)
 @Service
 public class RecordService {
     private final RecordRepository recordRepository;
@@ -34,33 +35,61 @@ public class RecordService {
         this.statusService = statusService;
     }
 
-    public List<Record> getAll(User user) throws ParseException {
-        update();
-        return recordRepository.findRecordByClientId(user.getId());
+    public List<Record> findByClientBarberStatus(int client, int barber, int status) {
+        return recordRepository.findRecordByClientIdAndBarberIdAndStatusId(client, barber, status);
     }
 
-    public String update() throws ParseException {
+    public List<Record> getAll(User user, String status) throws ParseException {
+        update();
+        if (Objects.equals(status, "client")) {
+            List<Record> records = recordRepository.findByClientIdAndStatusId(user.getId(), 1);
+            records.addAll(recordRepository.findByClientIdAndStatusId(user.getId(), 2));
+            records.addAll(recordRepository.findByClientIdAndStatusId(user.getId(), 3));
+            return records;
+        } else if (Objects.equals(status, "barber")) {
+            List<Record> records = recordRepository.findRecordByBarberIdAndStatusId(user.getId(), 1);
+            records.addAll(recordRepository.findRecordByBarberIdAndStatusId(user.getId(), 2));
+            records.addAll(recordRepository.findRecordByBarberIdAndStatusId(user.getId(), 3));
+            return records;
+        } else if (Objects.equals(status, "wait")) {
+            return recordRepository.findRecordByBarberIdAndStatusId(user.getId(), 1);
+        } else if (Objects.equals(status, "ar_client")) {
+            List<Record> records = recordRepository.findByClientIdAndStatusId(user.getId(), 4);
+            records.addAll(recordRepository.findByClientIdAndStatusId(user.getId(), 5));
+            return records;
+        } else if (Objects.equals(status, "ar_barber")) {
+            List<Record> records = recordRepository.findRecordByBarberIdAndStatusId(user.getId(), 4);
+            records.addAll(recordRepository.findRecordByBarberIdAndStatusId(user.getId(), 5));
+            return records;
+        }
+        return null;
+    }
+
+    @Transactional
+    public void submit(int id) {
+        Record record = recordRepository.findById(id);
+        record.setStatus(statusService.findOne(2));
+        recordRepository.save(record);
+    }
+
+    @Transactional
+    public void  update() throws ParseException {
         List<Record> records = recordRepository.findAll();
         Calendar nD = Calendar.getInstance();
         Calendar nT = Calendar.getInstance();
-        String s = "";
         nD.set(Calendar.HOUR_OF_DAY, 0);
         nD.set(Calendar.MINUTE, 0);
         nD.set(Calendar.SECOND, 0);
-        nD.set(Calendar.MILLISECOND,0);
-        s+= nD.getTime()+" ";
+        nD.set(Calendar.MILLISECOND, 0);
         for (Record record : records) {
             Calendar xT = Calendar.getInstance();
             xT.setTime(record.getTime());
             if (record.getStatus().getId() < 4) {
                 if (record.getStatus().getId() == 1) {
-                    s+=record.getDate() + " ";
-                    s+=xT.get(Calendar.HOUR_OF_DAY) + " ";
-                    s+=nT.get(Calendar.HOUR_OF_DAY);
                     if (
                             (record.getDate().compareTo(nD.getTime()) < 0) ||
-                            ((record.getDate().compareTo(nD.getTime()) == 0)
-                                    && (xT.get(Calendar.HOUR_OF_DAY) <= nT.get(Calendar.HOUR_OF_DAY)))) {
+                                    ((record.getDate().compareTo(nD.getTime()) == 0)
+                                            && (xT.get(Calendar.HOUR_OF_DAY) <= nT.get(Calendar.HOUR_OF_DAY)))) {
                         record.setStatus(statusService.findOne(5));
                         recordRepository.save(record);
                     }
@@ -73,29 +102,30 @@ public class RecordService {
                         if ((xT.get(Calendar.HOUR_OF_DAY) + 1 > nT.get(Calendar.HOUR_OF_DAY))) {
                             record.setStatus(statusService.findOne(3));
                             recordRepository.save(record);
-                        } else{
+                        } else {
                             record.setStatus(statusService.findOne(4));
                             recordRepository.save(record);
                         }
                     }
-                } else if (record.getDate().compareTo(nD.getTime()) < 0){
+                } else if (record.getDate().compareTo(nD.getTime()) < 0) {
                     record.setStatus(statusService.findOne(4));
                     recordRepository.save(record);
                 }
             }
         }
-        return s;
     }
 
+    @Transactional
     public void delete(int id) {
         Record record = recordRepository.findById(id);
         record.setStatus(statusService.findOne(5));
         recordRepository.save(record);
     }
 
-    public void save(Record record, int id, Date date) {
+    @Transactional
+    public void save(Record record, int serviceId, Date date) {
         User barber = userServiceImpl.findOne(record.getBarberID());
-        com.vlsu.ispi.models.Service service = serviceService.findOne(id);
+        com.vlsu.ispi.models.Service service = serviceService.findOne(serviceId);
         User client = userServiceImpl.getCurrentAuthUser();
         record.setClient(client);
         record.setBarber(barber);
@@ -115,10 +145,6 @@ public class RecordService {
         else record.setCost(service.getCost());
 
         recordRepository.save(record);
-    }
-
-    public List<User> getFreeBarbers(int service) {
-        return null;
     }
 
     public List<Date> getFreeDate(int service) throws ParseException {
@@ -174,5 +200,4 @@ public class RecordService {
         freeTimes.removeIf(time -> time.getBarbers().isEmpty());
         return freeTimes;
     }
-
 }

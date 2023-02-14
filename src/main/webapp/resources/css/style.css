@@ -722,3 +722,14 @@ label{
 .none{
     margin: 5px;
 }
+
+.feed{
+    background-color: #E8E8E8;
+    margin: 0 20% 2%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.feed_orange{
+    color: darkorange;
+}

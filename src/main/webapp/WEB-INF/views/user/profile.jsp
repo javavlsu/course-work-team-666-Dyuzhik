@@ -75,9 +75,15 @@
                         <button class="logout" type="submit" value="index">Управление услугами</button>
                     </form>
                 </c:if>
+                <c:if test="${barber == 'true'}">
+                    <form method="get" action="${pageContext.request.contextPath}/record/forBarbers">
+                        <button class="logout" type="submit" value="index">Барберам</button>
+                    </form>
+                </c:if>
                 <form method="get" action="${pageContext.request.contextPath}/record/index">
                     <button class="logout" type="submit" value="index">Мои записи</button>
                 </form>
+
             </div>
 
         </section>

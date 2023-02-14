@@ -39,9 +39,6 @@ public class User {
     @Column(name="photo")
     private String photolink;
 
-    @OneToOne(mappedBy = "user")
-    private Barber barber;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="users_id"),
             inverseJoinColumns = @JoinColumn(name="roles_id"))
@@ -52,6 +49,44 @@ public class User {
 
     @OneToMany(mappedBy = "barber", cascade = CascadeType.ALL)
     private List<Record> bRecords;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Record> feedbacks;
+
+    @OneToMany(mappedBy = "barber", cascade = CascadeType.ALL)
+    private List<Record> bFeedbacks;
+
+    public List<Record> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<Record> records) {
+        this.records = records;
+    }
+
+    public List<Record> getbRecords() {
+        return bRecords;
+    }
+
+    public void setbRecords(List<Record> bRecords) {
+        this.bRecords = bRecords;
+    }
+
+    public List<Record> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<Record> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public List<Record> getbFeedbacks() {
+        return bFeedbacks;
+    }
+
+    public void setbFeedbacks(List<Record> bFeedbacks) {
+        this.bFeedbacks = bFeedbacks;
+    }
 
     public User() {
 

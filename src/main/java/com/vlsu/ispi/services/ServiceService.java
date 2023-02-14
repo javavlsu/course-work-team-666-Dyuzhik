@@ -4,11 +4,13 @@ import com.vlsu.ispi.models.Role;
 import com.vlsu.ispi.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Transactional(readOnly = true)
 @Service
 public class ServiceService {
     private final ServiceRepository serviceRepository;
@@ -32,22 +34,19 @@ public class ServiceService {
         return services;
     }
 
+    @Transactional
     public void save(com.vlsu.ispi.models.Service service){
         serviceRepository.save(service);
     }
 
+    @Transactional
     public void update(int id, com.vlsu.ispi.models.Service updatedService) {
         updatedService.setId(id);
         serviceRepository.save(updatedService);
     }
 
+    @Transactional
     public void delete(int id) {
         serviceRepository.deleteById(id);
     }
-
-
-
-
-
-
 }

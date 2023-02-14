@@ -34,7 +34,7 @@
     <main class="edit">
         <h1>Выберите дату</h1>
         <form method="get"
-              action="${pageContext.request.contextPath}/record/add/${id}?${_csrf.parameterName}=${_csrf.token}">
+              action="${pageContext.request.contextPath}/record/add/${service_id}?${_csrf.parameterName}=${_csrf.token}">
 
             <%--        <form:form method="POST" modelAttribute="dates"--%>
             <%--                   action="/record/add/${service}?${_csrf.parameterName}=${_csrf.token}">--%>

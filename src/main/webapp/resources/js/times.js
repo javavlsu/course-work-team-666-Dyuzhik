@@ -1,7 +1,7 @@
 var select = document.getElementById('time'),
     all_blocs = document.querySelector('.timeBarbers'),
     blocs = all_blocs.getElementsByTagName('div'),
-    radio = document.getElementsByName('barber'),
+    radio = document.getElementsByName('barberID'),
     cost = document.getElementById('costRec');
 
 function init() {
@@ -14,7 +14,6 @@ init();
 select.addEventListener('change', function () {
     var ind = select.selectedIndex;
     for (var i = 0; i < blocs.length; i++) {
-        var ii = i - 1;
         if (i == ind) {
             blocs[i].style.display = 'block';
         } else {

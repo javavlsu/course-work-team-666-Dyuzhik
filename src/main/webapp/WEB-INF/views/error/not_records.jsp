@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Войдите</title>
+    <title>Нет прав</title>
     <link rel="stylesheet" type="text/css" href="../../../resources/css/style.css">
 
 </head>
@@ -30,8 +30,7 @@
 <div id="container">
     <main id="auth">
         <section class="block">
-            <h4>Чтобы получить доступ к этому разделу, пожалуйста</h4>
-            <h4><a href="${pageContext.request.contextPath}/login">Войдите</a></h4>
+            <h4>Вы не можете оставить отзыв барберу, услугами которого не пользовались, или которому уже оставили отзыв.</h4>
         </section>
     </main>
 </div>
@@ -41,4 +40,3 @@
 </footer>
 </body>
 </html>
-

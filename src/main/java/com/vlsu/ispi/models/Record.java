@@ -31,9 +31,6 @@ public class Record {
     @Temporal(TemporalType.TIME)
     private Date time;
 
-    @Transient
-    private String sTime;
-
     @ManyToOne()
     @JoinColumn(name = "status_id")
     private Status status;
@@ -52,14 +49,6 @@ public class Record {
 
     public void setTime(Date time) {
         this.time = time;
-    }
-
-    public String getsTime() {
-        return sTime;
-    }
-
-    public void setsTime(String sTime) {
-        this.sTime = sTime;
     }
 
     @Column(name = "cost")

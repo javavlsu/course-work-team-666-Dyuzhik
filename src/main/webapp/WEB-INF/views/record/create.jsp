@@ -32,16 +32,12 @@
 <div class="index">
     <main class="edit">
 
-        <%--        <form method="post" action="${pageContext.request.contextPath}/record/add/${service}/${barberID}?${_csrf.parameterName}=${_csrf.token}">--%>
         <h1 class="form-signin-heading">Оформление записи</h1>
-        <form:form method="POST" modelAttribute="record" action="${pageContext.request.contextPath}/record/add/${id}/${chDate}?${_csrf.parameterName}=${_csrf.token}">
+        <form:form method="POST" modelAttribute="record" action="${pageContext.request.contextPath}/record/add/${service_id}/${chDate}?${_csrf.parameterName}=${_csrf.token}">
             <div class="backBrown">
                 <h4>Дата: ${chDate}</h4>
                 <h4 class="cost">Стоимость: </h4><h4 class="cost" id="costRec">${cost}</h4>
                 <br>
-
-<%--                <label for="">Выберите время</label>--%>
-<%--                </br>--%>
                 <form:label path="time">Выберите время</form:label>
                 <form:select path="time" id="time">
                     <c:forEach items="${times}" var="time" varStatus="loop">
@@ -51,23 +47,12 @@
                     </c:forEach>
                 </form:select>
 
-<%--                <select name="time" class="select" id="timeID">--%>
-<%--                    <c:forEach items="${times}" var="time" varStatus="loop">--%>
-<%--                        <option value="${time.time}">--%>
-<%--                                ${time.time}--%>
-<%--                        </option>--%>
-<%--                    </c:forEach>--%>
-<%--                </select>--%>
                 <br>
                 <div class="timeBarbers">
-                    <c:forEach items="${times}" var="time">
+                    <c:forEach items="${times}" var="timev">
                         <div>
-                            <c:forEach items="${time.barbers}" var="barber">
-<%--                                <input type="radio" value="${barber.cost}" name="barber" onclick="changeCost()">--%>
+                            <c:forEach items="${timev.barbers}" var="barber">
                                 <form:radiobutton onclick="changeCost(${barber.cost})" path="barberID" value="${barber.barber.id}" />
-                                <%--                                    <form:radiobutton cssClass="but" path="barber" value="${barber.barber}"--%>
-                                <%--                                                      data-tooltip="${barber.barber.lastname} ${barber.barber.name} ${barber.barber.midname}"--%>
-                                <%--                                    />--%>
                                 <label data-tooltip="${barber.barber.lastname} ${barber.barber.name} ${barber.barber.midname}">${barber.barber.username}</label>
                             </c:forEach>
                         </div>
