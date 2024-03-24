@@ -13,8 +13,8 @@
 <head>
     <meta charset="utf-8">
     <title>Добавление отзыва</title>
-    <link rel="stylesheet" type="text/css" href="../../../resources/css/style.css">
-    <script src="../../../resources/js/times.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+    <script src="resources/js/times.js"></script>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
             <li><a href="${pageContext.request.contextPath}/profile">Личный кабинет</a></li>
             <li><a href="${pageContext.request.contextPath}/service/index/0">Услуги</a></li>
             <li><a href="${pageContext.request.contextPath}/barbers/0">Барберы</a></li>
-            <a href="../../../index.jsp"><img src="../../../resources/img/logo.png" width="150" height="50"
+            <a href="../../index.jsp"><img src="../../resources/img/logo.png" width="150" height="50"
                                               alt="barbershop"/></a>
         </ul>
     </nav>
@@ -65,6 +65,6 @@
 </footer>
 </body>
 
-<script src="../../../resources/js/times.js"></script>
+<script src="resources/js/times.js"></script>
 
 </html>

@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <title>Личный кабинет</title>
-    <link rel="stylesheet" type="text/css" href="../../../resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@
             <li><a href="${pageContext.request.contextPath}/profile">Личный кабинет</a></li>
             <li><a href="${pageContext.request.contextPath}/service/index/0">Услуги</a></li>
             <li><a href="${pageContext.request.contextPath}/barbers/0">Барберы</a></li>
-            <a href="../../../index.jsp"><img src="../../../resources/img/logo.png" width="150" height="50"
+            <a href="../../index.jsp"><img src="../../resources/img/logo.png" width="150" height="50"
                                               alt="barbershop"/></a>
         </ul>
     </nav>

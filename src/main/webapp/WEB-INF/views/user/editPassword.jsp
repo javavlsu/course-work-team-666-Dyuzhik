@@ -11,7 +11,7 @@
 <head>
     <meta charset="utf-8">
     <title>Смена пароля</title>
-    <link rel="stylesheet" type="text/css" href="../../../resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 </head>
@@ -23,7 +23,7 @@
             <li><a href="${pageContext.request.contextPath}/profile">Личный кабинет</a></li>
             <li><a href="${pageContext.request.contextPath}/service/index/0">Услуги</a></li>
             <li><a href="${pageContext.request.contextPath}/barbers/0">Барберы</a></li>
-            <a href="../../../index.jsp"><img src="../../../resources/img/logo.png" width="150" height="50"
+            <a href="../../index.jsp"><img src="../../resources/img/logo.png" width="150" height="50"
                                               alt="barbershop"/></a>
         </ul>
     </nav>
